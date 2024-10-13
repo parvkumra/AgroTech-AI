@@ -9,6 +9,7 @@ const Footer = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
+    const [hoverRating,setHoverRating]=useState(0);
 
     // Define company links with distinct paths
     const companyLinks = [
@@ -177,40 +178,53 @@ const Footer = () => {
 
             {/* Rating Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg">
-                        <h2 className="text-lg font-bold mb-4 text-center text-black">Rate Us</h2>
-                        <div className="flex justify-center mb-4">
-                            {[1, 2, 3, 4, 5].map((value) => (
-                                <span key={value} className={`cursor-pointer text-2xl ${rating >= value ? 'text-lime-500' : 'text-gray-300'}`} onClick={() => handleRating(value)}>
-                                    ★
-                                </span>
-                            ))}
-                        </div>
-                        <textarea
-                            className="w-full border text-black border-gray-300 rounded p-2 mb-4"
-                            rows="4"
-                            placeholder="Write your comments here..."
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        ></textarea>
-                        <div className="flex justify-end">
-                            <button
-                                onClick={submitRating}
-                                className="bg-lime-500 text-white font-semibold py-2 px-4 rounded transition-all duration-300 transform hover:bg-lime-600"
-                            >
-                                Submit
-                            </button>
-                            <button
-                                onClick={() => setIsModalOpen(false)}
-                                className="ml-2 text-gray-600 underline"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white pb-8 px-10 pt-3 rounded-lg shadow-lg relative">
+            <h2 className="text-xl font-bold mb-4 text-center text-black">Rate Us!</h2>
+            <button 
+                onClick={() => setIsModalOpen(false)}
+                className="ml-2 text-white bg-lime-500 text-lg px-2 py-1 absolute top-0 right-0 hover:bg-lime-600"
+            >
+                x
+            </button>
+            <div className="flex justify-center mb-5 mt-5">
+                {[1, 2, 3, 4, 5].map((value) => (
+                    <span
+                        key={value}
+                        className={`cursor-pointer text-3xl transition-transform duration-200 
+                                    ${hoverRating >= value ? 'text-lime-500' : 'text-gray-300'} 
+                                    ${rating >= value ? 'text-lime-500' : 'text-gray-300'} 
+                                    transform hover:scale-125`}
+                        onClick={() => handleRating(value)}
+                        onMouseEnter={() => setHoverRating(value)}
+                        onMouseLeave={() => setHoverRating(0)}
+                    >
+                        ★
+                    </span>
+                ))}
+            </div>
+            <textarea
+                    className="w-full  text-black border-lime-400 border-2 rounded-lg p-4 mb-4 focus:outline-none 
+                               focus:ring-2 focus:ring-lime-200 transition duration-200 ease-in-out 
+                               placeholder:opacity-50 placeholder:transition placeholder:duration-500"
+                    rows="4"
+                    placeholder="Write your comments here..."
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                />
+
+            <div className="flex justify-center">
+                <button
+                    onClick={submitRating}
+                    className="bg-lime-500 text-white font-semibold py-2 px-4 rounded transition-all duration-300 transform hover:bg-lime-600"
+                >
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+)}
+
         </footer>
     );
 };
